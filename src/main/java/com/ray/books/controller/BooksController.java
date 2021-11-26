@@ -98,7 +98,6 @@ public class BooksController {
                 } catch (Exception e) {
                     System.out.println("Error Write file: " + name);
                 }
-
             }
             String fileName = Paths.get(fileData.getOriginalFilename()).getFileName().toString();
             System.out.println(fileName);
@@ -132,8 +131,9 @@ public class BooksController {
 
     @GetMapping("search")
     public String searchBooks(@RequestParam("theSearchName") String theSearchName, Model theModel) {
-
-        return null;
+        List<Book> theBooks = bookService.searchBooks(theSearchName);
+        theModel.addAttribute("books", theBooks);
+        return "list-books";
     }
 
 }

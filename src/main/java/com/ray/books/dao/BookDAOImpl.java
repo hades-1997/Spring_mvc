@@ -2,6 +2,7 @@ package com.ray.books.dao;
 
 import com.ray.books.constant.SortBookColumn;
 import com.ray.books.entity.Book;
+import com.ray.books.entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -77,6 +78,20 @@ public class BookDAOImpl implements BookDAO{
 
     @Override
     public List<Book> searchBooks(String theSearchName) {
-        return null;
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query theQuery = null;
+
+        if (theSearchName != null & theSearchName.trim().length() > 0) {
+            theQuery = currentSession.createQuery("from Book where lower(title) like :theName " +
+                    "or lower(title) like :theName", Customer.class);
+
+            theQuery.setParameter("theName", "%" + theSearchName.toLowerCase() + "%");
+        } else {
+            theQuery = currentSession.createQuery("from Customer", Customer.class);
+        }
+
+        List<Book> books = theQuery.getResultList();
+
+        return books;
     }
 }

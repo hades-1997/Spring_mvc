@@ -90,7 +90,7 @@
                                     <td style="color: red">${tempBooks.unitprice}$</td>
                                     <td>${tempBooks.author}</td>
                                     <td>${tempBooks.createdate}</td>
-                                    <td><img src="${pageContext.request.contextPath}/resources/images/${tempBooks.imageurl}" style="height: 150px;width: 100px"></td>
+                                    <td><img src="${pageContext.request.contextPath}/upload/${tempBooks.imageurl}" style="height: 150px;width: 100px"></td>
                                     <td>${tempBooks.categoryBook.title}</td>
                                     <security:authorize access="hasRole('ADMIN')">
                                         <td>

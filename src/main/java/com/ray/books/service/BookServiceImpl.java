@@ -45,6 +45,6 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public List<Book> searchBooks(String theSearchName) {
-        return null;
+        return bookDAO.searchBooks(theSearchName);
     }
 }

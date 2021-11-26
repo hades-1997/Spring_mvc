@@ -87,9 +87,10 @@ public class ConfigWhichReplaceTheXMLConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/css/**").addResourceLocations("/resources/css/");
         registry.addResourceHandler("/resources/images/**").addResourceLocations("/resources/images/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
     }
 
-//    @Bean(name = "multipartResolver")
+//    @Bean(name = "multipartResolver")/target/SpringMVC-1.0-SNAPSHOT/upload/
 //    public CommonsMultipartResolver multipartResolver(){
 //        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 //        resolver.setDefaultEncoding("UTF-8");
