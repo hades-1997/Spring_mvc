@@ -32,7 +32,7 @@
             <div class="" style="padding: 5px;"></div>
             <h2>Add Books</h2>
             <div class="" style="padding: 20px;"></div>
-            <form:form action="saveBooks" modelAttribute="books" method="post">
+            <form:form action="saveBooks" modelAttribute="books" method="post" enctype="multipart/form-data">
                 <form:hidden path="id" />
                 <input name="command" value="ADD" type="hidden"/>
                 <div class="row">
@@ -62,11 +62,11 @@
                    </div>
                </div>
                 <div class="row">
-<%--                    <div class="col-md-6">--%>
-<%--                        <label for="imageurl" class="form-label">Default file input example</label>--%>
+                    <div class="col-md-6">
+                        <label for="fileDatas" class="form-label">Default file input example</label>
 <%--                        <input class="form-control" type="file" name="imageurl" id="imageurl">--%>
-<%--                 &lt;%&ndash; <form:input path="imageurl" class="form-control" id="imageurl" placeholder="Photo"/>&ndash;%&gt;--%>
-<%--                    </div>--%>
+                        <form:input path="fileDatas" type="file" class="form-control" placeholder="Photo" />
+                    </div>
                     <div class="col-md-6">
                         <label for="categoryBook" class="form-label">Categories</label>
                         <form:select path="categoryId" class="form-control" id="categoryBook" >

@@ -10,6 +10,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -69,7 +70,12 @@ public class ConfigWhichReplaceTheXMLConfig implements WebMvcConfigurer {
         return hibernateTransactionManager;
     }
 
-
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(100000);
+        return multipartResolver;
+    }
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -82,4 +88,12 @@ public class ConfigWhichReplaceTheXMLConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/css/**").addResourceLocations("/resources/css/");
         registry.addResourceHandler("/resources/images/**").addResourceLocations("/resources/images/");
     }
+
+//    @Bean(name = "multipartResolver")
+//    public CommonsMultipartResolver multipartResolver(){
+//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+//        resolver.setDefaultEncoding("UTF-8");
+//        return resolver;
+//    }
+
 }

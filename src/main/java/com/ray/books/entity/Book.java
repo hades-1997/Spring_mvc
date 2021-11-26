@@ -1,8 +1,10 @@
 package com.ray.books.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -36,30 +38,26 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "cat_id")
     public Category categoryBook;
-    //public List<Category> categoryBook;
-
-
     // dùng transient mình dùng thôi không lưu lên database
     @Transient
     public String CategoryId;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "cat_id")
-//    //khai báo name bằng khóa ngoại
-//    //
-//    private Order categoryBook;
-//
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "cat_id")
-//    //khai báo name bằng khóa ngoại
-//    //
-//    private Product categoryBook;
+    @Transient
+    public  CommonsMultipartFile[] fileDatas;
+
+    public CommonsMultipartFile[] getFileDatas() {
+        return fileDatas;
+    }
+
+    public void setFileDatas(CommonsMultipartFile[] fileDatas) {
+        this.fileDatas = fileDatas;
+    }
+
 
 
     public Book() { }
 
-    public Book(String title, String hometext, Double unitprice, String author, Date createdate, String imageurl, Category categoryBook, String categoryId) {
+    public Book(String title, String hometext, Double unitprice, String author, Date createdate, String imageurl, Category categoryBook, String categoryId, CommonsMultipartFile[] fileDatas) {
         this.title = title;
         this.hometext = hometext;
         this.unitprice = unitprice;
@@ -68,7 +66,9 @@ public class Book {
         this.imageurl = imageurl;
         this.categoryBook = categoryBook;
         CategoryId = categoryId;
+        this.fileDatas = fileDatas;
     }
+
     @Transient
     public String getCategoryId() {
         return CategoryId;
@@ -119,14 +119,6 @@ public class Book {
         this.author = author;
     }
 
-//    public Date getCreatedate() {
-//        return createdate;
-//    }
-//
-//    public void setCreatedate(Date createdate) {
-//        this.createdate = createdate;
-//    }
-
     public Date getCreatedate() {
         return createdate;
     }
@@ -163,6 +155,8 @@ public class Book {
                 ", createdate=" + createdate +
                 ", imageurl='" + imageurl + '\'' +
                 ", categoryBook=" + categoryBook +
+                ", CategoryId='" + CategoryId + '\'' +
+                ", fileDatas=" + Arrays.toString(fileDatas) +
                 '}';
     }
 }
