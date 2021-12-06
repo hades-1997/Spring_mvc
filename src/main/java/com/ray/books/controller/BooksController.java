@@ -68,7 +68,7 @@ public class BooksController {
                             @RequestParam("fileDatas") MultipartFile multipartFile,
                             HttpServletRequest request) {
 
-        String nameFile = multipartFile.getOriginalFilename();
+        //String nameFile = multipartFile.getOriginalFilename();
         String uploadRootPath =  request.getServletContext().getRealPath("upload");
         System.out.println("uploadRootPath=" + uploadRootPath);
         File uploadRootDir = new File(uploadRootPath);
@@ -76,28 +76,26 @@ public class BooksController {
         if (!uploadRootDir.exists()) {
             uploadRootDir.mkdirs();
         }
-        CommonsMultipartFile[] fileDatas = theBooks.getFileDatas();
+        CommonsMultipartFile fileData = theBooks.getFileDatas();
         //
         List<File> uploadedFiles = new ArrayList<File>();
-        for (CommonsMultipartFile fileData : fileDatas) {
-            // Tên file gốc tại Client.
-            String name = fileData.getOriginalFilename();
-            System.out.println("Client File Name = " + name);
-            if (name != null && name.length() > 0) {
-                try {
-                    // Tạo file tại Server.
-                    File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+        // Tên file gốc tại Client.
+        String name = fileData.getOriginalFilename();
+        System.out.println("Client File Name = " + name);
+        if (name != null && name.length() > 0) {
+            try {
+                // Tạo file tại Server.
+                File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
 
-                    // Luồng ghi dữ liệu vào file trên Server.
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                    stream.write(fileData.getBytes());
-                    stream.close();
-                    //
-                    uploadedFiles.add(serverFile);
-                    System.out.println("Write file: " + serverFile);
-                } catch (Exception e) {
-                    System.out.println("Error Write file: " + name);
-                }
+                // Luồng ghi dữ liệu vào file trên Server.
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(fileData.getBytes());
+                stream.close();
+                //
+                uploadedFiles.add(serverFile);
+                System.out.println("Write file: " + serverFile);
+            } catch (Exception e) {
+                System.out.println("Error Write file: " + name);
             }
             String fileName = Paths.get(fileData.getOriginalFilename()).getFileName().toString();
             System.out.println(fileName);
@@ -109,17 +107,49 @@ public class BooksController {
         bookService.saveBooks(theBooks);
 
         return "redirect:/books/list";
+//        for (CommonsMultipartFile fileData : fileDatas) {
+//            // Tên file gốc tại Client.
+//            String name = fileData.getOriginalFilename();
+//            System.out.println("Client File Name = " + name);
+//            if (name != null && name.length() > 0) {
+//                try {
+//                    // Tạo file tại Server.
+//                    File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+//
+//                    // Luồng ghi dữ liệu vào file trên Server.
+//                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+//                    stream.write(fileData.getBytes());
+//                    stream.close();
+//                    //
+//                    uploadedFiles.add(serverFile);
+//                    System.out.println("Write file: " + serverFile);
+//                } catch (Exception e) {
+//                    System.out.println("Error Write file: " + name);
+//                }
+//            }
+//            String fileName = Paths.get(fileData.getOriginalFilename()).getFileName().toString();
+//            System.out.println(fileName);
+//            theBooks.setImageurl(fileName);
+//        }
+//        int categoryId = Integer.parseInt(theBooks.CategoryId);
+//        Category category = categoryService.getCategoryById(categoryId);
+//        theBooks.setCategoryBook(category);
+//        bookService.saveBooks(theBooks);
+//
+//        return "redirect:/books/list";
 
     }
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("booksId") int theId, Model theModel) {
         // get customer from DB
-//       Category theCategory = categoryService.getCategoryById(theId);
-//        theModel.addAttribute("categories", theCategory);
+        List<Category> categories = categoryService.getCategory();
+        theModel.addAttribute("categories", categories);
         Book theBooks = bookService.getBook(theId);
+       // CommonsMultipartFile fileData = theBooks.getImageurl();
+      //  theBooks.setFileDatas(fileDatas);
         // bind data to theModel
         theModel.addAttribute("books", theBooks);
-        return "customer-form";
+        return "books-form";
     }
 
     @GetMapping("/delete")
