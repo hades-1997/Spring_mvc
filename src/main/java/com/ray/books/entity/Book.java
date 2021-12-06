@@ -4,7 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -13,21 +13,20 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Size(min = 1, message = "is required")
     @Column(name = "title")
     private String title;
+
     @Column(name = "hometext")
     private String hometext;
+
     @Column(name = "unitprice")
     private Double unitprice;
+
     @Column(name = "author")
     private String author;
 
-
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-//@Temporal(TemporalType.DATE)
-//    @CreationTimestamp
-    @Column(name = "createdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdate;
 
@@ -35,7 +34,7 @@ public class Book {
     private String imageurl;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "cat_id")
     public Category categoryBook;
     // dùng transient mình dùng thôi không lưu lên database
@@ -43,13 +42,13 @@ public class Book {
     public String CategoryId;
 
     @Transient
-    public  CommonsMultipartFile[] fileDatas;
+    public  CommonsMultipartFile fileDatas;
 
-    public CommonsMultipartFile[] getFileDatas() {
+    public CommonsMultipartFile getFileDatas() {
         return fileDatas;
     }
 
-    public void setFileDatas(CommonsMultipartFile[] fileDatas) {
+    public void setFileDatas(CommonsMultipartFile fileDatas) {
         this.fileDatas = fileDatas;
     }
 
@@ -57,7 +56,7 @@ public class Book {
 
     public Book() { }
 
-    public Book(String title, String hometext, Double unitprice, String author, Date createdate, String imageurl, Category categoryBook, String categoryId, CommonsMultipartFile[] fileDatas) {
+    public Book(String title, String hometext, Double unitprice, String author, Date createdate, String imageurl, Category categoryBook, String categoryId, CommonsMultipartFile fileDatas) {
         this.title = title;
         this.hometext = hometext;
         this.unitprice = unitprice;
@@ -156,7 +155,7 @@ public class Book {
                 ", imageurl='" + imageurl + '\'' +
                 ", categoryBook=" + categoryBook +
                 ", CategoryId='" + CategoryId + '\'' +
-                ", fileDatas=" + Arrays.toString(fileDatas) +
+                ", fileDatas=" + fileDatas +
                 '}';
     }
 }

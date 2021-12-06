@@ -39,6 +39,7 @@
                     <div class="col-md-12">
                         <label for="title" class="form-label">Name</label>
                         <form:input path="title" class="form-control" id="title" placeholder="Name Books"/>
+                        <form:errors path="title" cssClass="error" />
                     </div>
                 </div>
                 <div class="row">
@@ -72,7 +73,12 @@
                         <form:select path="categoryId" class="form-control" id="categoryBook" >
                             <form:option value="NONE"> --SELECT--</form:option>
                             <c:forEach items="${categories}" var="tempCategories">
-                                <form:option value="${tempCategories.cat_id}">${tempCategories.title}</form:option>
+                                <c:if test="${tempCategories.cat_id eq books.categoryBook.cat_id}">
+                                    <form:option selected="selected" value="${tempCategories.cat_id}">${tempCategories.title}</form:option>
+                                </c:if>
+                                <c:if test="${!(tempCategories.cat_id eq books.categoryBook.cat_id)}">
+                                    <form:option  value="${tempCategories.cat_id}">${tempCategories.title}</form:option>
+                                </c:if>
                             </c:forEach>
 <%--                       <form:options items="${books.categoryBook.cat_id}">${books.categoryBook.title}</form:options>--%>
                         </form:select>

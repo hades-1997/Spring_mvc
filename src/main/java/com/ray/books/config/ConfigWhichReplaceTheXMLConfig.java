@@ -73,7 +73,7 @@ public class ConfigWhichReplaceTheXMLConfig implements WebMvcConfigurer {
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(100000);
+        multipartResolver.setMaxUploadSize(900000);
         return multipartResolver;
     }
     private Properties hibernateProperties() {
